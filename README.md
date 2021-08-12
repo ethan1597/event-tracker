@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## API Keys (Important)
+In order to actually run this app, you will need to get an API key from Google Cloud Platform, and insert it
+in src/components/Map.js. There will be a comment telling you where.
+
 ## Available Scripts
 
 In the project directory, you can run:
