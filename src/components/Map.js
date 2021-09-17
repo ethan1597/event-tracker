@@ -7,26 +7,26 @@ import stormIcon from '@iconify/icons-mdi/weather-lightning-rainy'
 import volcanoIcon from '@iconify/icons-mdi/fire-alert'
 import icebergIcon from '@iconify/icons-mdi/snowflake'
 
-const Map = ({ eventData, center, zoom }) => {
+const Map = ({ eventData, eventToggle, center, zoom }) => {
     const [locationInfo, setLocationInfo] = useState(null)
 
     const markers = eventData.map(ev => {
-        if (ev.categories[0].id === 8) {
+        if (ev.categories[0].id === 8 && eventToggle['wildfire']) {
             return <LocationMarker lat={ev.geometries[0].coordinates[1]} lng={ev.geometries[0].coordinates[0]} 
                 onClick={() => setLocationInfo({ id: ev.id, title: ev.title})} locationIcon={fireIcon} eventType="wildfire" />
-        }else if(ev.categories[0].id === 10){
+        }else if(ev.categories[0].id === 10 && eventToggle['storm']){
             const stormMarkers = ev.geometries.map(point => {
                 return <LocationMarker lat={point.coordinates[1]} lng={point.coordinates[0]} 
                 onClick={() => setLocationInfo({ id: ev.id, title: ev.title})} locationIcon={stormIcon} eventType="storm" />
             })
             return stormMarkers;
-        }else if(ev.categories[0].id === 12){
+        }else if(ev.categories[0].id === 12 && eventToggle['volcano']){
             if(ev.title === 'Dukono Volcano, Indonesia'){ /*NASA accidentally formated this one incorrectly and it causes a bug*/
                 return null;
             }
             return <LocationMarker lat={ev.geometries[0].coordinates[1]} lng={ev.geometries[0].coordinates[0]} 
                 onClick={() => setLocationInfo({ id: ev.id, title: ev.title})} locationIcon={volcanoIcon} eventType="volcano" />
-        }else if(ev.categories[0].id === 15){
+        }else if(ev.categories[0].id === 15 && eventToggle['iceberg']){
             return <LocationMarker lat={ev.geometries[0].coordinates[1]} lng={ev.geometries[0].coordinates[0]} 
                 onClick={() => setLocationInfo({ id: ev.id, title: ev.title})} locationIcon={icebergIcon} eventType="iceberg" />
         }
@@ -36,7 +36,7 @@ const Map = ({ eventData, center, zoom }) => {
     return (
         <div className="map">
             <GoogleMapReact
-                bootstrapURLKeys={{ key: '' }} /* Add google API key here between quotes */
+                bootstrapURLKeys={{ key: 'AIzaSyCXqyuv_ieCi4YwBic93_l_0epTzs-gpnI' }} /* Add google API key here between quotes */
                 defaultCenter={center}
                 defaultZoom={zoom}
             >
